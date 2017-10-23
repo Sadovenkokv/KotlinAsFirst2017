@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson1.task1.sqr
+import java.lang.Integer.max
+import java.lang.Math.random
+
 /**
  * Пример
  *
@@ -61,12 +65,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var k=0
-    var number=n
-    if (number == 0) return 1
-    else while (number>0) {
-        number = number / 10
-        k = k + 1
+    var k = 0
+    var n = n //делаю переменную n меняемой
+    if (n == 0) return 1
+    else while (n != 0) {
+        n /= 10
+        k += 1
     }
     return k
 }
@@ -78,15 +82,15 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var k2=-1
-    var k1=0
-    var k=0
+    var beforeLastN=-1  //позапрошлое значение (соответствует fib(n) из условия)
+    var previousN=0    //прошлое (соответствует fib(n+1) из условия)
+    var n=n //делаю переменную N меняемой
     for (i in 1..n) {
-        k = k1 + Math.abs(k2)
-        k2 = k1
-        k1 = k
+        n = previousN + Math.abs(beforeLastN)
+        beforeLastN = previousN
+        previousN = n
     }
-    return k
+    return n
 }
 
 /**
@@ -95,21 +99,49 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = 0
+    var m = m
+    var n = n
+    val m1 = m
+    val n1 = n
+    while (m != n) {
+        if (m > n) m = m - n    //нахожу НОД, сейчас м1 и n1 равны друг другу и имееют значение НОДа
+        else n = n - m
+    }
+    return (m1 * n1 / n)  //формула нахождения НОК: (a*b)/(их НОД)
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int):Int {
+    var result = 1 //значение переменной неважно
+    for (i in 2..n) {
+        result = i
+        if (n % i == 0) break
+    }
+    return result
+}
+
+
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var max = 0
+    for (i in 1..(n-1)) {
+        if (n % i == 0) {
+            max = Integer.max(max,i)
+        }
+    }
+    return max
+}
 
 /**
  * Простая

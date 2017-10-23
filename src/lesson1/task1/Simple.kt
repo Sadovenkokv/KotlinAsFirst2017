@@ -109,7 +109,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     var d = initial*1.0
     for (i in 1..3) {
-        d=(d*percent/100)+d
+        d = (d*percent/100)+d
     }
     return d
 }
@@ -122,13 +122,14 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    var n=1
-    var p=number
-    var b=""
+    var lastNumeral = 1
+    var resultString = StringBuilder()
+    var number = number
     for (i in 1..3) {
-        n = p % 10
-        p = p / 10
-        b = b + n
+        lastNumeral = number % 10
+        resultString = StringBuilder(resultString).append(lastNumeral)
+        number = number / 10
     }
-    return b.toInt()
+    return ((resultString).toString()).toInt() //когда вместо toString ставил сразу toInt, строка отмечалась ошибочной
+    // и я подумал, что сразу в интежер стрингбилд конвертировать нельзя
 }

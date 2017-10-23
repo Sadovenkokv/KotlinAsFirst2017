@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -36,10 +38,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        ((age%100 >= 11) && (age%100 <= 20)) -> (age.toString()+ " лет")
-        (age%10==1) -> (age.toString()+ " год")
-        ((age%10 >= 2) && (age%10 <= 4)) -> (age.toString()+ " года")
-        else -> (age.toString()+ " лет")
+        ((age % 100 in 11..20)) -> (age.toString() + " лет")
+        (age % 10 == 1) -> (age.toString() + " год")
+        ((age % 10 in 2..4)) -> (age.toString() + " года")
+        else -> (age.toString() + " лет")
     }
 }
 
@@ -54,14 +56,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
     /** sA - весь путь (sAll)*/
-    val s1=t1*v1
-    val s2=t2*v2
-    val s3=t3*v3
-    val sA=s1+s2+s3
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val sA = s1 + s2 + s3
     return when {
-        sA/2<s1 -> (sA/2)/v1
-        sA/2<(s1+s2) -> ((sA/2-s1)/v2)+t1
-        else -> ((sA/2-s2-s1)/v3)+t2+t1
+        sA / 2 < s1 -> (sA / 2) / v1
+        sA / 2 < (s1 + s2) -> ((sA / 2 - s1) / v2) + t1
+        else -> ((sA / 2 - s2 - s1) / v3) + t2 + t1
     }
 }
 
@@ -77,16 +79,24 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var k=0
-    if (((kingY-rookY1)!=0) && ((kingX-rookX1)==0)) k=k+1
-        else if (((kingX-rookX1)!=0) && ((kingY-rookY1)==0)) k=k+1
-    if (((kingY-rookY2)!=0) && ((kingX-rookX2)==0)) k=k+3
-        else if (((kingX-rookX2)!=0) && ((kingY-rookY2)==0)) k=k+3
-    return when (k) {
-        0 -> k
-        1 -> k
-        3 -> k-1
-        else -> k-1
+    val YdeductY1 = kingY-rookY1  //deduct - вычесть
+    val XdeductX1 = kingX-rookX1
+    val YdeductY2 = kingY-rookY2
+    val XdeductX2 = kingX-rookX2
+    var result = 0
+    when {
+        ((YdeductY1 != 0) && (XdeductX1 == 0)) -> result = result + 1
+        ((XdeductX1 != 0) && (YdeductY1 == 0)) -> result = result + 1
+        else -> result
+    }
+    when {
+        ((YdeductY2 != 0) && (XdeductX2 == 0)) -> result = result +3
+        ((XdeductX2 != 0) && (YdeductY2 == 0)) -> result = result +3
+    else -> result
+    }
+    return when (result) {
+        0,1 -> result
+        else -> result - 1
     }
 }
 
@@ -103,16 +113,23 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var k=0
-    if (((kingY - rookY) != 0) && ((kingX - rookX) == 0)) k=k+1
-        else if (((kingX - rookX) != 0) && ((kingY - rookY) == 0)) k=k+1
-    if ((kingX - bishopX) == (kingY - bishopY)) k=k+3
-        else if ((kingX+kingY)==(bishopX+bishopY)) k=k+3
-    return when (k) {
-        0 -> k
-        1 -> k
-        3 -> k-1
-        else -> k-1
+    val kYdeductrX = kingY - rookX
+    val kXdeductrX = kingX - rookX
+    val kYdeductrY = kingY - rookY
+    val kXdeductbX = kingX - bishopX
+    val kYdeductbY = kingY - bishopY
+    val kXfoldkY = kingX + kingY  //fold - сложить
+    val bXfoldbY = bishopX + bishopY
+    var result = 0
+    if ((kYdeductrX != 0) && (kXdeductrX == 0)) result = result + 1
+    else if ((kXdeductrX != 0) && (kYdeductrY == 0)) result = result + 1
+    if (kXdeductbX == kYdeductbY) result = result + 3
+    else if (kXfoldkY == bXfoldbY) result = result + 3
+    return when (result) {
+        0 -> result
+        1 -> result
+        3 -> result - 1
+        else -> result - 1
     }
 }
 
@@ -125,14 +142,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max=0.0
-    if (c>a) max=c
-        else max=a
-    if (b>max) max=b
+    var max=Math.max(a,c)
+    max=Math.max(b,max)
+    val sqrAFoldB=sqr(a)+sqr(b)
+    val sqrBFoldC=sqr(b)+sqr(c)
+    val sqrCFoldA=sqr(c)+sqr(a)
     return when {
-        (((sqr(a)+sqr(b)>sqr(c)) && max==c) || ((sqr(c)+sqr(b)>sqr(a)) && max==a) || ((sqr(a)+sqr(c)>sqr(b)) && max==b)) -> 0
-        ((sqr(c)==sqr(b)+sqr(a)) || (sqr(a)==sqr(b)+sqr(c)) || (sqr(b)==sqr(c)+sqr(a))) -> 1
-        ((c>b+a) || (a>b+c) || (b>c+a)) -> -1
+        (((sqrAFoldB>sqr(c))&&max==c) || ((sqrBFoldC>sqr(a))&&max==a) || ((sqrCFoldA>sqr(b))&&max==b)) -> 0
+        ((sqr(c)==sqrAFoldB) || (sqr(a)==sqrBFoldC) || (sqr(b)==sqrCFoldA)) -> 1
+        ((c>a+b) || (a>b+c) || (b>c+a)) -> -1
         else -> 2
     }
 }
@@ -148,16 +166,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a >= c) {
         return when {
-            (a>d) -> -1
-            (d<b) -> (d-a)
-            else -> (b-a)
+            (a > d) -> -1
+            (d < b) -> (d - a)
+            else -> (b - a)
         }
     }
     else {
         return when {
-            (c>b) -> -1
-            (b>d) -> (d-c)
-            else -> (b-c)
+            (c > b) -> -1
+            (b > d) -> (d - c)
+            else -> (b - c)
         }
     }
 }
