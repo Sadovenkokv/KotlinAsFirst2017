@@ -225,42 +225,22 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var resultString = StringBuilder(MAX_VALUE)   // создаваемая строка цифр
-    var count = 0.0                              // ну, тут всё понятно
-    var countString = ""                        // квадрат счётчика count в строковом формате
-    var quantityNumber = 0                     // количество цифр в строке
-    var breakCircle = 0
-    var result = 0
-    while (breakCircle == 0) {
-        count += 1
-        countString = (sqr(count).toInt()).toString()
-        resultString = StringBuilder(resultString).append(countString)
-        quantityNumber = digitNumber1(((StringBuilder(resultString)).toString()).toInt())  //после того, как написал эту строку, вспомнил, что есть метод length. Поставил его, метод подчёркивался красным (несостыковка типов вроде), в итоге, я решил оставить этот вариант подсчёта количества цифр в строке
-        if (quantityNumber >= n) {
-            quantityNumber -= n
-            if (n==1) result = 1
-            if (quantityNumber != 0) {
-                quantityNumber -= 1
-                for (i in 1..(quantityNumber+1)) {
-                    result = ((StringBuilder(resultString)).toString()).toInt() / 10 //решил использовать этот способ в связи с тем, что метод .get(n) не работал (n - условное число)
-                }
-            }
-            else result = (((StringBuilder(resultString)).toString()).toInt())%10
-        breakCircle = 1
-        }
-    }
-    return result
-}
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 /**
  * Сложная
  *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1 1 2 3 5 8 13 21 34 55 89 144...
+ * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fullString = StringBuilder(MAX_VALUE)
+    for (i in 1..n) {
+        fullString = StringBuilder(fullString).append(fib(i))    //По идее, должно работать... Цикл от 1 до ЗАДАННОЙ ЦИФРЫ, в каждом повторе которого будет добавляться переменная от выполненной функции fib; но, опять же, странная ошибка
+    }
+    return (StringBuilder(fullString).get(n)).toInt()
+}
 
 
 
@@ -274,24 +254,4 @@ fun digitNumber1(n:Int): Int {
         k += 1
     }
     return k
-}
-
-fun fib1(n: Int):String {
-    var p= ""
-    var countPrevious = 0
-    var countBeforeLast = -1
-    var breakCircle = 0
-    var fullString = StringBuilder()
-    while (breakCircle == 0) {
-        val cPS = (Math.abs(countPrevious)).toString()  //countPrevious String
-        val cBLS = (countBeforeLast).toString() //countBeforeLast String
-        fullString = StringBuilder(fullString).append(cBLS).append(cPS)  //!!!!!!!!! надо удалить вторую цифру из строки, потому что она равна нулю и мешает работе пргграммы
-        //если вторая и третья цифра=0, тогда удалить
-        countBeforeLast = countPrevious
-        countPrevious = (StringBuilder(fullString).toString()).toInt()  //!!!! присваивается ВСЯ строка
-        if (digitNumber1(countPrevious)>n) {
-            breakCircle = 1
-        }
-    }
-    return p
 }
