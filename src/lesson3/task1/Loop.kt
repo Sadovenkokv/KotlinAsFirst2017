@@ -2,6 +2,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Пример
@@ -225,25 +226,24 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var resultString = StringBuilder()   // создаваемая строка цифр
-    var count = 0.0                     // ну тут всё понятно
-    var countString = ""                 // квадрат счётчика count в строковом формате
-    var countNumber = 0               // счётчик цифр в строке
+    var resultString = StringBuilder(MAX_VALUE)   // создаваемая строка цифр
+    var count = 0.0                              // ну, тут всё понятно
+    var countString = ""                        // квадрат счётчика count в строковом формате
+    var quantityNumber = 0                     // количество цифр в строке
     var breakCircle = 0
     var result = 0
     while (breakCircle == 0) {
         count += 1
         countString = (sqr(count).toInt()).toString()
-          //после того, как написал эту строку, вспомнил, что есть метод length. Я поставил его после последующей строки, метод подчёркивался красным (несостыковка типов вроде), в итоге я решил оставить этот вариант подсчёта количества цифр в строке
         resultString = StringBuilder(resultString).append(countString)
-        countNumber = (((StringBuilder(resultString)).toString()).length)
-        if (countNumber >= n) {
-            countNumber -= n
+        quantityNumber = digitNumber1(((StringBuilder(resultString)).toString()).toInt())  //после того, как написал эту строку, вспомнил, что есть метод length. Поставил его, метод подчёркивался красным (несостыковка типов вроде), в итоге, я решил оставить этот вариант подсчёта количества цифр в строке
+        if (quantityNumber >= n) {
+            quantityNumber -= n
             if (n==1) result = 1
-            if (countNumber != 0) {
-                countNumber -= 1
-                for (i in 1..(countNumber+1)) {
-                    result = ((StringBuilder(resultString)).toString()).toInt() / 10 //решил использовать этот способ в связи с отсутсивем ответа про метод toChar
+            if (quantityNumber != 0) {
+                quantityNumber -= 1
+                for (i in 1..(quantityNumber+1)) {
+                    result = ((StringBuilder(resultString)).toString()).toInt() / 10 //решил использовать этот способ в связи с тем, что метод .get(n) не работал (n - условное число)
                 }
             }
             else result = (((StringBuilder(resultString)).toString()).toInt())%10
@@ -269,7 +269,7 @@ fun digitNumber1(n:Int): Int {
     var k = 0
     var n = n
     if (n == 0) return 1
-    else while (n != 0) {
+    while (n != 0) {
         n /= 10
         k += 1
     }
