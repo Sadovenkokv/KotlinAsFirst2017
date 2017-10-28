@@ -245,6 +245,11 @@ fun fibSequenceDigit(n: Int): Int {
 
 
 
+/*
+Вспомогательные функции
+ */
+
+
 fun digitNumber1(n:Int): Int {
     var k = 0
     var n = n
