@@ -2,8 +2,6 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import java.lang.Integer.max
-import java.lang.Math.random
 
 /**
  * Пример
@@ -151,7 +149,6 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean = TODO()
-
 /**
  * Простая
  *
@@ -185,7 +182,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var n = n
+    var quantityNumber = digitNumber1(n)
+    var result = 0
+    for (i in 1..digitNumber1(n)) {
+        var quantityZero = 1
+        val LastNumber = n % 10
+        while (quantityNumber != 1) {
+            quantityZero *= 10
+            quantityNumber -= 1
+        }
+        n /= 10
+        quantityNumber = digitNumber1(n)
+        result += (LastNumber * quantityZero)
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -194,7 +207,7 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -211,13 +224,74 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var resultString = StringBuilder()   // создаваемая строка цифр
+    var count = 0.0                     // ну тут всё понятно
+    var countString = ""                 // квадрат счётчика count в строковом формате
+    var countNumber = 0               // счётчик цифр в строке
+    var breakCircle = 0
+    var result = 0
+    while (breakCircle == 0) {
+        count += 1
+        countString = (sqr(count).toInt()).toString()
+          //после того, как написал эту строку, вспомнил, что есть метод length. Я поставил его после последующей строки, метод подчёркивался красным (несостыковка типов вроде), в итоге я решил оставить этот вариант подсчёта количества цифр в строке
+        resultString = StringBuilder(resultString).append(countString)
+        countNumber = (((StringBuilder(resultString)).toString()).length)
+        if (countNumber >= n) {
+            countNumber -= n
+            if (n==1) result = 1
+            if (countNumber != 0) {
+                countNumber -= 1
+                for (i in 1..(countNumber+1)) {
+                    result = ((StringBuilder(resultString)).toString()).toInt() / 10 //решил использовать этот способ в связи с отсутсивем ответа про метод toChar
+                }
+            }
+            else result = (((StringBuilder(resultString)).toString()).toInt())%10
+        breakCircle = 1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
  *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
+ * 1 1 2 3 5 8 13 21 34 55 89 144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
+
+
+
+fun digitNumber1(n:Int): Int {
+    var k = 0
+    var n = n
+    if (n == 0) return 1
+    else while (n != 0) {
+        n /= 10
+        k += 1
+    }
+    return k
+}
+
+fun fib1(n: Int):String {
+    var p= ""
+    var countPrevious = 0
+    var countBeforeLast = -1
+    var breakCircle = 0
+    var fullString = StringBuilder()
+    while (breakCircle == 0) {
+        val cPS = (Math.abs(countPrevious)).toString()  //countPrevious String
+        val cBLS = (countBeforeLast).toString() //countBeforeLast String
+        fullString = StringBuilder(fullString).append(cBLS).append(cPS)  //!!!!!!!!! надо удалить вторую цифру из строки, потому что она равна нулю и мешает работе пргграммы
+        //если вторая и третья цифра=0, тогда удалить
+        countBeforeLast = countPrevious
+        countPrevious = (StringBuilder(fullString).toString()).toInt()  //!!!! присваивается ВСЯ строка
+        if (digitNumber1(countPrevious)>n) {
+            breakCircle = 1
+        }
+    }
+    return p
+}
