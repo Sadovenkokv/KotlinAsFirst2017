@@ -4,6 +4,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import java.lang.Integer.max
 
 /**
  * Пример
@@ -76,19 +77,19 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val YdeductY1 = kingY-rookY1  //deduct - вычесть
-    val XdeductX1 = kingX-rookX1
-    val YdeductY2 = kingY-rookY2
-    val XdeductX2 = kingX-rookX2
+    val YDeductY1 = kingY-rookY1  //deduct - вычесть
+    val XDeductX1 = kingX-rookX1
+    val YDeductY2 = kingY-rookY2
+    val XDeductX2 = kingX-rookX2
     var result = 0
     when {
-        ((YdeductY1 != 0) && (XdeductX1 == 0)) -> result += 1
-        ((XdeductX1 != 0) && (YdeductY1 == 0)) -> result += 1
+        ((YDeductY1 != 0) && (XDeductX1 == 0)) -> result += 1
+        ((XDeductX1 != 0) && (YDeductY1 == 0)) -> result += 1
         else -> result
     }
     when {
-        ((YdeductY2 != 0) && (XdeductX2 == 0)) -> result += 3
-        ((XdeductX2 != 0) && (YdeductY2 == 0)) -> result += 3
+        ((YDeductY2 != 0) && (XDeductX2 == 0)) -> result += 3
+        ((XDeductX2 != 0) && (YDeductY2 == 0)) -> result += 3
     else -> result
     }
     return when (result) {
@@ -110,18 +111,18 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val kYdeductrX = kingY - rookX
-    val kXdeductrX = kingX - rookX
-    val kYdeductrY = kingY - rookY
-    val kXdeductbX = kingX - bishopX
-    val kYdeductbY = kingY - bishopY
-    val kXfoldkY = kingX + kingY  //fold - сложить
-    val bXfoldbY = bishopX + bishopY
+    val kYDeductrX = kingY - rookX
+    val kXDeductrX = kingX - rookX
+    val kYDeductrY = kingY - rookY
+    val kXDeductbX = kingX - bishopX
+    val kYDeductbY = kingY - bishopY
+    val kXSumkY = kingX + kingY  //fold - сложить
+    val bXSumbY = bishopX + bishopY
     var result = 0
-    if ((kYdeductrX != 0) && (kXdeductrX == 0)) result += 1
-    else if ((kXdeductrX != 0) && (kYdeductrY == 0)) result += 1
-    if (kXdeductbX == kYdeductbY) result += 3
-    else if (kXfoldkY == bXfoldbY) result += 3
+    if ((kYDeductrX != 0) && (kXDeductrX == 0)) result += 1
+    else if ((kXDeductrX != 0) && (kYDeductrY == 0)) result += 1
+    if (kXDeductbX == kYDeductbY) result += 3
+    else if (kXSumkY == bXSumbY) result += 3
     return when (result) {
         0 -> result
         1 -> result
@@ -139,15 +140,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max=Math.max(a,c)
-    max=Math.max(b,max)
-    val sqrAFoldB=sqr(a)+sqr(b)
-    val sqrBFoldC=sqr(b)+sqr(c)
-    val sqrCFoldA=sqr(c)+sqr(a)
+    var max = maxOf(a,c)
+    max = maxOf(b,max)
+    val sqrASumB = sqr(a) + sqr(b)
+    val sqrBSumC = sqr(b) + sqr(c)
+    val sqrCSumA = sqr(c) + sqr(a)
     return when {
-        (((sqrAFoldB>sqr(c))&&max==c) || ((sqrBFoldC>sqr(a))&&max==a) || ((sqrCFoldA>sqr(b))&&max==b)) -> 0
-        ((sqr(c)==sqrAFoldB) || (sqr(a)==sqrBFoldC) || (sqr(b)==sqrCFoldA)) -> 1
-        ((c>a+b) || (a>b+c) || (b>c+a)) -> -1
+        (((sqrASumB > sqr(c)) && max == c) ||
+                ((sqrBSumC > sqr(a))&& max == a) ||
+                ((sqrCSumA > sqr(b))&& max == b)) -> 0
+        ((sqr(c) == sqrASumB) || //вы имеете ввиду такое форматирование?
+                (sqr(a) == sqrBSumC) ||
+                (sqr(b) == sqrCSumA)) -> 1
+        ((c > a + b) || (a > b + c) || (b > c + a)) -> -1
         else -> 2
     }
 }

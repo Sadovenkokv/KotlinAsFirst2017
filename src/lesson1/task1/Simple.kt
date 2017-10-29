@@ -127,9 +127,8 @@ fun numberRevert(number: Int): Int {
     var number = number
     for (i in 1..3) {
         lastNumeral = number % 10
-        resultString = StringBuilder(resultString).append(lastNumeral)
-        number = number / 10
+        resultString = resultString.append(lastNumeral)
+        number /= 10
     }
-    return ((resultString).toString()).toInt() //когда вместо toString ставил сразу toInt, строка отмечалась ошибочной
-    // и я подумал, что сразу в интежер стрингбилд конвертировать нельзя
+    return ((resultString).toString()).toInt()
 }

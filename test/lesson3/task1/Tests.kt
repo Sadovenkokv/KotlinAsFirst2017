@@ -59,7 +59,7 @@ class Tests {
     @Test
     @Tag("Trivial")
     fun digitNumber() {
-        assertEquals(1, digitNumber(0))
+        assertEquals(3, digitNumber(-456))
         assertEquals(1, digitNumber(7))
         assertEquals(2, digitNumber(10))
         assertEquals(2, digitNumber(99))

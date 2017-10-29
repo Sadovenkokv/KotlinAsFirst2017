@@ -18,8 +18,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val n=number /**для краткости написания*/
-    return ((n%10+(n/10)%10)==((n/100)%10)+n/1000)
+    val n = number /**для краткости написания*/
+    return (n % 10 + n / 10 % 10 == n / 100 % 10 + n / 1000)
 }
 
 /**
@@ -29,9 +29,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return ((x1==x2) || (y1==y2) || (x2-x1==y2-y1) || (x1-x2==y2-y1))
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        (x1==x2) || (y1==y2) || (x2-x1==y2-y1) || (x1-x2==y2-y1)
 
 /**
  * Средняя
@@ -42,14 +41,14 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (r2<r1) return false
-    else {
-        return when {
-            ((x1==x2) && (y1==y2)) -> true
-            (sqr((x1-r1)-x2)+sqr((y1-r1)-y2)<=sqr(r2)) -> true
-            else -> false
-        }
-    }
+    return if (r2<r1) false
+           else {
+              when {
+                ((x1==x2) && (y1==y2)) -> true
+                (sqr((x1-r1)-x2)+sqr((y1-r1)-y2)<=sqr(r2)) -> true
+                else -> false
+              }
+           }
 }
 
 /**

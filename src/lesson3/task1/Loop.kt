@@ -2,6 +2,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.abs
 import kotlin.Int.Companion.MAX_VALUE
 
 /**
@@ -85,7 +86,7 @@ fun fib(n: Int): Int {
     var previousN=0    //прошлое (соответствует fib(n+1) из условия)
     var n=n //делаю переменную N меняемой
     for (i in 1..n) {
-        n = previousN + Math.abs(beforeLastN)
+        n = previousN + abs(beforeLastN)
         beforeLastN = previousN
         previousN = n
     }
@@ -105,8 +106,8 @@ fun lcm(m: Int, n: Int): Int {
     val m1 = m
     val n1 = n
     while (m != n) {
-        if (m > n) m = m - n    //нахожу НОД, сейчас м1 и n1 равны друг другу и имееют значение НОДа
-        else n = n - m
+        if (m > n) m -= n    //нахожу НОД, сейчас м1 и n1 равны друг другу и имееют значение НОДа
+        else n -= m
     }
     return (m1 * n1 / n)  //формула нахождения НОК: (a*b)/(их НОД)
 }
@@ -208,7 +209,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = (revert(n) == n)
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -236,9 +237,9 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var fullString = StringBuilder(MAX_VALUE)
+    var fullString = StringBuilder()
     for (i in 1..n) {
-        fullString = StringBuilder(fullString).append(creatSqrNumberN(i))
+        fullString = fullString.append(creatSqrNumberN(i))
     }
     return (StringBuilder(fullString)[n]).toInt()
 }
@@ -290,7 +291,7 @@ fun creatSqrNumberN(n: Int):Int {
     for (i in 1..quantityNumber) {
         result /= 10
     }
-    return result
+    return result % 10
 }
 
 fun creatFibNumberN(n: Int):Int {
@@ -300,7 +301,7 @@ fun creatFibNumberN(n: Int):Int {
     var quantityNumber = 0
     var breakCircle = 0
     while (breakCircle == 0) {
-        result = previousN + Math.abs(beforeLastN)
+        result = previousN + abs(beforeLastN)
         quantityNumber += digitNumber1(result)
         beforeLastN = previousN
         previousN = result
