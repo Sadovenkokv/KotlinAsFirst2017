@@ -82,13 +82,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     val XdeductX2 = kingX-rookX2
     var result = 0
     when {
-        ((YdeductY1 != 0) && (XdeductX1 == 0)) -> result = result + 1
-        ((XdeductX1 != 0) && (YdeductY1 == 0)) -> result = result + 1
+        ((YdeductY1 != 0) && (XdeductX1 == 0)) -> result += 1
+        ((XdeductX1 != 0) && (YdeductY1 == 0)) -> result += 1
         else -> result
     }
     when {
-        ((YdeductY2 != 0) && (XdeductX2 == 0)) -> result = result +3
-        ((XdeductX2 != 0) && (YdeductY2 == 0)) -> result = result +3
+        ((YdeductY2 != 0) && (XdeductX2 == 0)) -> result += 3
+        ((XdeductX2 != 0) && (YdeductY2 == 0)) -> result += 3
     else -> result
     }
     return when (result) {
@@ -118,10 +118,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val kXfoldkY = kingX + kingY  //fold - сложить
     val bXfoldbY = bishopX + bishopY
     var result = 0
-    if ((kYdeductrX != 0) && (kXdeductrX == 0)) result = result + 1
-    else if ((kXdeductrX != 0) && (kYdeductrY == 0)) result = result + 1
-    if (kXdeductbX == kYdeductbY) result = result + 3
-    else if (kXfoldkY == bXfoldbY) result = result + 3
+    if ((kYdeductrX != 0) && (kXdeductrX == 0)) result += 1
+    else if ((kXdeductrX != 0) && (kYdeductrY == 0)) result += 1
+    if (kXdeductbX == kYdeductbY) result += 3
+    else if (kXfoldkY == bXfoldbY) result += 3
     return when (result) {
         0 -> result
         1 -> result

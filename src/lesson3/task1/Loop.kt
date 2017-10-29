@@ -225,7 +225,13 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var fullString = StringBuilder(MAX_VALUE)
+    for (i in 1..n) {
+        fullString = StringBuilder(fullString).append(creatSqrNumberN(i))
+    }
+    return (StringBuilder(fullString)[n]).toInt()
+}
 
 /**
  * Сложная
@@ -237,9 +243,9 @@ fun squareSequenceDigit(n: Int): Int = TODO()
 fun fibSequenceDigit(n: Int): Int {
     var fullString = StringBuilder(MAX_VALUE)
     for (i in 1..n) {
-        fullString = StringBuilder(fullString).append(fib(i))    //По идее, должно работать... Цикл от 1 до ЗАДАННОЙ ЦИФРЫ, в каждом повторе которого будет добавляться переменная от выполненной функции fib; но, опять же, странная ошибка
+        fullString = StringBuilder(fullString).append(creatFibNumberN(i))    //По идее, должно работать... Цикл от 1 до ЗАДАННОЙ ЦИФРЫ, в каждом повторе которого будет добавляться переменная от выполненной функции fib; но, опять же, странная ошибка
     }
-    return (StringBuilder(fullString).get(n)).toInt()
+    return (StringBuilder(fullString)[n]).toInt()
 }
 
 
@@ -259,4 +265,42 @@ fun digitNumber1(n:Int): Int {
         k += 1
     }
     return k
+}
+
+fun creatSqrNumberN(n: Int):Int {
+    var result = n
+    var quantityNumber = 0
+    var count = 0
+    var breakCircle = 0
+    while (breakCircle == 0) {
+        count += 1
+        result = count * count
+        quantityNumber += digitNumber1(result)
+        if (quantityNumber >=n ) breakCircle = 1
+    }
+    quantityNumber -= n
+    for (i in 1..quantityNumber) {
+        result /= 10
+    }
+    return result
+}
+
+fun creatFibNumberN(n: Int):Int {
+    var beforeLastN=-1
+    var previousN=0
+    var result = 0
+    var quantityNumber = 0
+    var breakCircle = 0
+    while (breakCircle == 0) {
+        result = previousN + Math.abs(beforeLastN)
+        quantityNumber += digitNumber1(result)
+        beforeLastN = previousN
+        previousN = result
+        if (quantityNumber >= n) breakCircle = 1
+    }
+    quantityNumber -= n
+    for (i in 1..quantityNumber) {
+        result /= 10
+    }
+    return result
 }
