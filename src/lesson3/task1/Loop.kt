@@ -236,14 +236,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var k = ""
-    for (i in 1..n) {
-        val fullString = StringBuilder().append(creatSqrNumberN(i))
-        if (i == n) k = fullString.toString()
-    }
-    return (StringBuilder(k)[n]).toInt()
-}
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 /**
  * Сложная

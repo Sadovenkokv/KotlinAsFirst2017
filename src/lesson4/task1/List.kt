@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.minDivisor
 import java.lang.Math.*
 
 /**
@@ -202,7 +203,15 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-
+    var mutList = mutableListOf<Int>()
+    var result = ""
+    var n = n
+    while (n != 1) {
+        mutList.add(minDivisor(n))
+        n /= minDivisor(n)
+    }
+    mutList.sorted()
+    return("") //не доделал
 }
 
 /**
