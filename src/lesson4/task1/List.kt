@@ -211,7 +211,8 @@ fun factorizeToString(n: Int): String {
         n /= minDivisor(n)
     }
     mutList.sorted()
-    return("") //не доделал
+    result = mutList.joinToString(separator = "*")
+    return result
 }
 
 /**
