@@ -130,5 +130,5 @@ fun numberRevert(number: Int): Int {
         resultString = resultString.append(lastNumeral)
         number /= 10
     }
-    return ((resultString).toString()).toInt()
+    return resultString.toString().toInt()
 }

@@ -237,11 +237,12 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var fullString = StringBuilder()
+    var k = ""
     for (i in 1..n) {
-        fullString = fullString.append(creatSqrNumberN(i))
+        val fullString = StringBuilder().append(creatSqrNumberN(i))
+        if (i == n) k = fullString.toString()
     }
-    return (StringBuilder(fullString)[n]).toInt()
+    return (StringBuilder(k)[n]).toInt()
 }
 
 /**
@@ -251,13 +252,7 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int {
-    var fullString = StringBuilder(MAX_VALUE)
-    for (i in 1..n) {
-        fullString = StringBuilder(fullString).append(creatFibNumberN(i))    //По идее, должно работать... Цикл от 1 до ЗАДАННОЙ ЦИФРЫ, в каждом повторе которого будет добавляться переменная от выполненной функции fib; но, опять же, странная ошибка
-    }
-    return (StringBuilder(fullString)[n]).toInt()
-}
+fun fibSequenceDigit(n: Int): Int = TODO()
 
 
 /*
@@ -285,9 +280,10 @@ fun creatSqrNumberN(n: Int):Int {
         count += 1
         result = count * count
         quantityNumber += digitNumber1(result)
-        if (quantityNumber >=n ) breakCircle = 1
+        if (quantityNumber >= n ) breakCircle = 1
     }
     quantityNumber -= n
+    if (quantityNumber == 0) return result
     for (i in 1..quantityNumber) {
         result /= 10
     }
