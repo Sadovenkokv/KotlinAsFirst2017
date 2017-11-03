@@ -236,7 +236,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int =TODO()
 
 /**
  * Сложная
@@ -262,43 +262,4 @@ fun digitNumber1(n:Int): Int {
         k += 1
     }
     return k
-}
-
-fun creatSqrNumberN(n: Int):Int {
-    var result = n
-    var quantityNumber = 0
-    var count = 0
-    var breakCircle = 0
-    while (breakCircle == 0) {
-        count += 1
-        result = count * count
-        quantityNumber += digitNumber1(result)
-        if (quantityNumber >= n ) breakCircle = 1
-    }
-    quantityNumber -= n
-    if (quantityNumber == 0) return result
-    for (i in 1..quantityNumber) {
-        result /= 10
-    }
-    return result % 10
-}
-
-fun creatFibNumberN(n: Int):Int {
-    var beforeLastN=-1
-    var previousN=0
-    var result = 0
-    var quantityNumber = 0
-    var breakCircle = 0
-    while (breakCircle == 0) {
-        result = previousN + abs(beforeLastN)
-        quantityNumber += digitNumber1(result)
-        beforeLastN = previousN
-        previousN = result
-        if (quantityNumber >= n) breakCircle = 1
-    }
-    quantityNumber -= n
-    for (i in 1..quantityNumber) {
-        result /= 10
-    }
-    return result
 }

@@ -4,6 +4,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.minDivisor
+import lesson3.task1.revert
 import java.lang.Math.*
 
 /**
@@ -223,7 +224,22 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var n = n
+    var list = mutableListOf<Int>()
+    while (n >= base) {
+        list.add(n%base)
+        n /= base
+    }
+    list.add(n)
+    val size = list.size-1
+    for (i in 0..size/2) {
+        val buffer = list[i]
+        list[i] = list[size-i]
+        list[size-i] = buffer
+    }
+    return list
+}
 
 /**
  * Сложная
@@ -233,7 +249,21 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var result = ""
+    var list = convert(n,base)
+    for (i in 0 until list.size) {
+        if (list[i] >= 9) {
+            when (list[i]) {
+                10 -> result += "a"
+                11 -> result += "b"
+                12 -> result += "c"
+            }
+        }
+        else result += list[i]
+    }
+    return "1"
+}
 
 /**
  * Средняя
