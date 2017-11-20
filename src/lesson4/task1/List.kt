@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.digitNumber1
 import lesson3.task1.minDivisor
 import lesson3.task1.revert
 import java.lang.Math.*

@@ -283,7 +283,7 @@ fun fibSequenceDigit(n: Int): Int {
     for (i in 1..quantityNumber) {
         result /= 10
     }
-    return result
+    return result%10
 }
 
 
