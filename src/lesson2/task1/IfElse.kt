@@ -77,10 +77,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val YDeductY1 = kingY-rookY1  //deduct - вычесть
-    val XDeductX1 = kingX-rookX1
-    val YDeductY2 = kingY-rookY2
-    val XDeductX2 = kingX-rookX2
+    val YDeductY1 = kingY - rookY1  //deduct - вычесть
+    val XDeductX1 = kingX - rookX1
+    val YDeductY2 = kingY - rookY2
+    val XDeductX2 = kingX - rookX2
     var result = 0
     when {
         ((YDeductY1 != 0) && (XDeductX1 == 0)) -> result += 1
@@ -90,10 +90,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     when {
         ((YDeductY2 != 0) && (XDeductX2 == 0)) -> result += 3
         ((XDeductX2 != 0) && (YDeductY2 == 0)) -> result += 3
-    else -> result
+        else -> result
     }
     return when (result) {
-        0,1 -> result
+        0, 1 -> result
         else -> result - 1
     }
 }
@@ -111,18 +111,18 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val kYDeductrX = kingY - rookX
-    val kXDeductrX = kingX - rookX
-    val kYDeductrY = kingY - rookY
-    val kXDeductbX = kingX - bishopX
-    val kYDeductbY = kingY - bishopY
-    val kXSumkY = kingX + kingY
-    val bXSumbY = bishopX + bishopY
+    val kYDeductRX = kingY - rookX
+    val kXDeductRX = kingX - rookX
+    val kYDeductRY = kingY - rookY
+    val kXDeductBX = kingX - bishopX
+    val kYDeductBY = kingY - bishopY
+    val kXSumKY = kingX + kingY
+    val bXSumBY = bishopX + bishopY
     var result = 0
-    if ((kYDeductrX != 0) && (kXDeductrX == 0)) result += 1
-    else if ((kXDeductrX != 0) && (kYDeductrY == 0)) result += 1
-    if (kXDeductbX == kYDeductbY) result += 3
-    else if (kXSumkY == bXSumbY) result += 3
+    if ((kYDeductRY != 0) && (kXDeductRX == 0)) result += 1
+    else if ((kXDeductRX != 0) && (kYDeductRY == 0)) result += 1
+    if (kXDeductBX == kYDeductBY) result += 3
+    else if (kXSumKY == bXSumBY) result += 3
     return when (result) {
         0 -> result
         1 -> result
@@ -140,18 +140,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max = maxOf(a,c)
-    max = maxOf(b,max)
+    var max = maxOf(a, c)
+    max = maxOf(b, max)
     val sqrASumB = sqr(a) + sqr(b)
     val sqrBSumC = sqr(b) + sqr(c)
     val sqrCSumA = sqr(c) + sqr(a)
     return when {
-        (((sqrASumB > sqr(c)) && max == c) ||
-                ((sqrBSumC > sqr(a))&& max == a) ||
-                ((sqrCSumA > sqr(b))&& max == b)) -> 0
-        ((sqr(c) == sqrASumB) || //вы имеете ввиду такое форматирование?
-                (sqr(a) == sqrBSumC) ||
-                (sqr(b) == sqrCSumA)) -> 1
+        (((sqrASumB > sqr(c)) && max == c) || ((sqrBSumC > sqr(a)) && max == a) || ((sqrCSumA > sqr(b)) && max == b)) -> 0
+        ((sqr(c) == sqrASumB) || (sqr(a) == sqrBSumC) || (sqr(b) == sqrCSumA)) -> 1 //ctrl+alt+l = content is already properly formatted для обеих строк. разве можно как-то ещё боле компактно это записать?
         ((c > a + b) || (a > b + c) || (b > c + a)) -> -1
         else -> 2
     }
@@ -168,14 +164,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a >= c) {
         return when {
-            (a > d) -> -1
-            (d < b) -> (d - a)
+            ((a > d) || (c > b)) -> -1
+            (b > d) -> (d - a)
             else -> (b - a)
         }
-    }
-    else {
+    } else {
         return when {
-            (c > b) -> -1
             (b > d) -> (d - c)
             else -> (b - c)
         }

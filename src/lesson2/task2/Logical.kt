@@ -19,7 +19,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean {
     val n = number /**для краткости написания*/
-    return (n % 10 + n / 10 % 10 == n / 100 % 10 + n / 1000)
+    return n % 10 + n / 10 % 10 == n / 100 % 10 + n / 1000
 }
 
 /**
@@ -41,11 +41,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    return if (r2<r1) false
+    return if ( r2 < r1 ) false
            else {
               when {
-                ((x1==x2) && (y1==y2)) -> true
-                (sqr((x1-r1)-x2)+sqr((y1-r1)-y2)<=sqr(r2)) -> true
+                ((x1 == x2) && (y1 == y2)) -> true
+                (sqr((x1 - r1) - x2 ) + sqr(( y1 - r1) - y2) <= sqr(r2)) -> true
                 else -> false
               }
            }

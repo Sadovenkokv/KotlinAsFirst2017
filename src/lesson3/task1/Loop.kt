@@ -236,7 +236,25 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int =TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var result = n
+    var quantityNumber = 0
+    var count = 0
+    var breakCircle = 0
+    while (breakCircle == 0) {
+        count += 1
+        result = count * count
+        quantityNumber += digitNumber1(result)
+        if (quantityNumber >= n ) breakCircle = 1
+    }
+    quantityNumber -= n
+    if ((quantityNumber == 0) && (digitNumber1(result) == 1)) return result
+    if ((quantityNumber == 0) && (digitNumber1(result) != 1)) return result%10
+    for (i in 1..quantityNumber) {
+        result /= 10
+    }
+    return result%10
+}
 
 /**
  * Сложная
@@ -245,7 +263,28 @@ fun squareSequenceDigit(n: Int): Int =TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var beforeLastN=-1
+    var previousN=0
+    var result = 0
+    var quantityNumber = 0
+    var breakCircle = 0
+    while (breakCircle == 0) {
+        result = previousN + abs(beforeLastN)
+        quantityNumber += digitNumber1(result)
+        beforeLastN = previousN
+        previousN = result
+        if (quantityNumber >= n) breakCircle = 1
+    }
+    quantityNumber -= n
+
+    if ((quantityNumber == 0) && (digitNumber1(result) == 1)) return result
+    if ((quantityNumber == 0) && (digitNumber1(result) != 1)) return result%10
+    for (i in 1..quantityNumber) {
+        result /= 10
+    }
+    return result
+}
 
 
 /*
