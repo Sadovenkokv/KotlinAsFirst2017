@@ -111,7 +111,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val kYDeductRX = kingY - rookX
     val kXDeductRX = kingX - rookX
     val kYDeductRY = kingY - rookY
     val kXDeductBX = kingX - bishopX
@@ -119,14 +118,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val kXSumKY = kingX + kingY
     val bXSumBY = bishopX + bishopY
     var result = 0
-    if ((kYDeductRY != 0) && (kXDeductRX == 0)) result += 1
-    else if ((kXDeductRX != 0) && (kYDeductRY == 0)) result += 1
-    if (kXDeductBX == kYDeductBY) result += 3
-    else if (kXSumKY == bXSumBY) result += 3
+    if (((kYDeductRY != 0) && (kXDeductRX == 0)) || ((kXDeductRX != 0) && (kYDeductRY == 0))) result += 1
+    if ((kXDeductBX == kYDeductBY) || (kXSumKY == bXSumBY)) result += 3
     return when (result) {
-        0 -> result
-        1 -> result
-        3 -> result - 1
+        0, 1 -> result
         else -> result - 1
     }
 }
@@ -146,8 +141,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val sqrBSumC = sqr(b) + sqr(c)
     val sqrCSumA = sqr(c) + sqr(a)
     return when {
-        (((sqrASumB > sqr(c)) && max == c) || ((sqrBSumC > sqr(a)) && max == a) || ((sqrCSumA > sqr(b)) && max == b)) -> 0
-        ((sqr(c) == sqrASumB) || (sqr(a) == sqrBSumC) || (sqr(b) == sqrCSumA)) -> 1 //ctrl+alt+l = content is already properly formatted для обеих строк. разве можно как-то ещё боле компактно это записать?
+        (((sqrASumB > sqr(c)) && max == c) ||
+                ((sqrBSumC > sqr(a)) && max == a) ||
+                ((sqrCSumA > sqr(b)) && max == b)) -> 0
+        ((sqr(c) == sqrASumB) ||
+                (sqr(a) == sqrBSumC) ||
+                (sqr(b) == sqrCSumA)) -> 1
         ((c > a + b) || (a > b + c) || (b > c + a)) -> -1
         else -> 2
     }

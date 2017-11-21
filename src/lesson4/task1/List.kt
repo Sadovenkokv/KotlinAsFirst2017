@@ -391,7 +391,7 @@ fun from1to9InWords(n: Int): String = when (n) {
 }
 
 fun specialNumbers(n: Int):String = when (n) {
-    11 -> "одинадцать "
+    11 -> "одиннадцать "
     12 -> "двенадцать "
     13 -> "тринадцать "
     14 -> "четырнадцать "
