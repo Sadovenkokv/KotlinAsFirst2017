@@ -308,11 +308,10 @@ fun russian(n: Int): String {
 }
 
 fun strToRussian(quantityNumber: Int, n: Int): String {
-    var string = StringBuilder()
-    var quantityNumber = quantityNumber
-    var n = n
-    var n1 = n % 1000
-    var breakCircle = 0
+    var string = StringBuilder()   //в неё складывается результаты
+    var quantityNumber = quantityNumber //количетсво цифр в числе, которые помогают определить разрядность числа
+    var n = n //просто превращаю val в var
+    var n1 = n % 1000 //позже понадобится
     n /= 1000
     if (quantityNumber == 6) { //900 000
         string.append(fromNumbersToWords( n / 100, 3))
@@ -336,10 +335,10 @@ fun strToRussian(quantityNumber: Int, n: Int): String {
         if ((n >= 3) || (n == 0)) string.append(fromNumbersToWords(n, 4))
         quantityNumber = 3
     }
-    if (quantityNumber <= 3) { //почему не работает с 12-ью?
+    if (quantityNumber <= 3) {
         if ((n1 % 100 >= 11) && (n1 % 100 <= 19)) {
             string.append(fromNumbersToWords(n1 / 100, 3))
-            string.append(specialNumbers(n))
+            string.append(specialNumbers(n1))
         }
         else
             for (i in 3 downTo 1) {
@@ -348,7 +347,7 @@ fun strToRussian(quantityNumber: Int, n: Int): String {
                 n1 %= pow(10.0, (i - 1).toDouble()).toInt()
             }
     }
-    return string.toString()
+    return Regex("""\s$""").replace(string.toString(),"")
 }
 
 fun fromNumbersToWords(n: Int,quantityNumber: Int): String { //задача данной функции переделывать цифры в их разрядности
