@@ -360,7 +360,7 @@ fun fromNumbersToWords(n: Int,quantityNumber: Int): String { //задача да
         if ((n >= 2) && (n <= 3)) result.append(from1to9InWords(n) + "дцать ")
         if (n == 4) result.append("сорок ")
         if ((n >= 5) && n <=8)  result.append(from1to9InWords(n) + "десят ")
-        if (n == 9) result.append("девяноста ")
+        if (n == 9) result.append("девяносто ")
     }
     if (quantityNumber == 3) { //сотни
         if (n == 1) result.append("сто ")
