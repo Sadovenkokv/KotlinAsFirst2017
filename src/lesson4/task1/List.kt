@@ -302,4 +302,103 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var quantityNumber = digitNumber1(n)
+    return strToRussian(quantityNumber,n)
+}
+
+fun strToRussian(quantityNumber: Int, n: Int): String {
+    var string = StringBuilder()
+    var quantityNumber = quantityNumber
+    var n = n
+    var n1 = n % 1000
+    var breakCircle = 0
+    n /= 1000
+    if (quantityNumber == 6) { //900 000
+        string.append(fromNumbersToWords( n / 100, 3))
+        n %= 100
+        quantityNumber = 5
+    }
+    if (quantityNumber == 5) {
+        if ((n >= 11) && (n <= 19)) {
+            string.append(specialNumbers(n) + "тысяч ")
+            quantityNumber = 3
+        }
+        else {
+            string.append(fromNumbersToWords(n / 10, 2))
+            n %= 10
+            quantityNumber = 4
+        }
+    }
+    if (quantityNumber == 4) {
+        if (n == 1) string.append("одна тысяча ")
+        if (n == 2) string.append("две тысячи ")
+        if ((n >= 3) || (n == 0)) string.append(fromNumbersToWords(n, 4))
+        quantityNumber = 3
+    }
+    if (quantityNumber <= 3) { //почему не работает с 12-ью?
+        if ((n1 % 100 >= 11) && (n1 % 100 <= 19)) {
+            string.append(fromNumbersToWords(n1 / 100, 3))
+            string.append(specialNumbers(n))
+        }
+        else
+            for (i in 3 downTo 1) {
+                val neededNumber = n1 / pow(10.0, (i - 1).toDouble()).toInt()
+                string.append(fromNumbersToWords(neededNumber, i))
+                n1 %= pow(10.0, (i - 1).toDouble()).toInt()
+            }
+    }
+    return string.toString()
+}
+
+fun fromNumbersToWords(n: Int,quantityNumber: Int): String { //задача данной функции переделывать цифры в их разрядности
+    var result = StringBuilder()
+    if (quantityNumber == 1) { //единицы
+        result.append(from1to9InWords(n))
+    }
+    if (quantityNumber == 2) { //десятки
+        if (n == 1) result.append("десять ")
+        if ((n >= 2) && (n <= 3)) result.append(from1to9InWords(n) + "дцать ")
+        if (n == 4) result.append("сорок ")
+        if ((n >= 5) && n <=8)  result.append(from1to9InWords(n) + "десят ")
+        if (n == 9) result.append("девяноста ")
+    }
+    if (quantityNumber == 3) { //сотни
+        if (n == 1) result.append("сто ")
+        if (n == 2) result.append("двести ")
+        if ((n >= 3) && (n <= 4)) result.append(from1to9InWords(n) + "ста ")
+        if (n >= 5) result.append(from1to9InWords(n) + "сот ")
+    }
+    if (quantityNumber == 4) { //тысячи
+        if (n == 0) result.append("тысяч ")
+        if (n == 1) result.append(from1to9InWords(n) + " тысяча ")
+        if ((n >= 2) && (n <= 4)) result.append(from1to9InWords(n) + " тысячи ")
+        if (n >= 5) result.append(from1to9InWords(n) +  " тысяч ")
+    }
+    return result.toString()
+}
+
+fun from1to9InWords(n: Int): String = when (n) {
+    0 -> ""
+    1 -> "один"
+    2 -> "два"
+    3 -> "три"
+    4 -> "четыре"
+    5 -> "пять"
+    6 -> "шесть"
+    7 -> "семь"
+    8 -> "восемь"
+    else -> "девять"
+}
+
+fun specialNumbers(n: Int):String = when (n) {
+    11 -> "одинадцать "
+    12 -> "двенадцать "
+    13 -> "тринадцать "
+    14 -> "четырнадцать "
+    15 -> "пятнадцать "
+    16 -> "шестнадцать "
+    17 -> "семнадцать "
+    18 -> "восемнадцать "
+    else -> "девятнадцать "
+}
