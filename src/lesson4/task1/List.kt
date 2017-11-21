@@ -338,7 +338,7 @@ fun strToRussian(quantityNumber: Int, n: Int): String {
     if (quantityNumber <= 3) {
         if ((n1 % 100 >= 11) && (n1 % 100 <= 19)) {
             string.append(fromNumbersToWords(n1 / 100, 3))
-            string.append(specialNumbers(n1))
+            string.append(specialNumbers(n1 % 100))
         }
         else
             for (i in 3 downTo 1) {
