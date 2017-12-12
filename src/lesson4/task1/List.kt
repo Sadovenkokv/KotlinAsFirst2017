@@ -252,15 +252,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var letterUnicode = 87
-    var numberIncode = 48
-    var b = 48
     var result = ""
     var list = convert(n,base)
     for (i in 0 until list.size) {
-        if (list[i] > 9) {
-            result += (list[i] + letterUnicode).toChar()
+        result += if (list[i] > 9) {
+            (list[i] + letterUnicode).toChar()
         }
-        else result += list[i]
+        else list[i]
     }
     return result
 }

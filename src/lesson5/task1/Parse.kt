@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import java.util.logging.Level.parse
+
 /**
  * Пример
  *
@@ -66,7 +68,32 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var date = str.split(" ")
+    if ((date.size != 3) || (monthHelp(date[1]) == 0) || (date[0].toInt() > 31)) return ""
+    return try {
+        String.format("%02d.%02d.%04d", date[0].toInt(), monthHelp(date[1]), date[2].toInt())
+    }
+    catch (e:NumberFormatException) {
+        ""
+    } //*java.lang.IndexOutOfBoundsException: Index 1, Size 1 была ошибка такого рода при вводе строки без пробелов. При  написании e:Exception | e:IndexOutOfBoundsException ошибка всё ещё не исправлялас с помощью catch, почему?
+}
+
+fun monthHelp (str: String): Int = when (str) {
+     "января" -> 1
+     "февраля" -> 2
+     "марта" -> 3
+     "апреля" -> 4
+     "мая" -> 5
+     "июня" -> 6
+     "июля" -> 7
+     "августа" -> 8
+     "сентября" -> 9
+     "октября" -> 10
+     "ноября" -> 11
+     "декабря" -> 12
+     else -> 0
+ }
 
 /**
  * Средняя
@@ -75,7 +102,28 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {  //почему не работает?
+    var date = digital.split(".")
+    if ((date.size != 3) || (date[0].toInt() > 31) || (anotherMonthHelp(date[1].toInt()) == ""))return ""
+    return try { String.format("%d %s %d", date[0].toInt(), anotherMonthHelp(date[1].toInt()), date[2].toInt()) }
+    catch (e:NumberFormatException) { "" }
+}
+
+fun anotherMonthHelp(n: Int): String = when (n) {
+    1 -> "января"
+    2 -> "февраля"
+    3 -> "марта"
+    4 -> "апреля"
+    5 -> "мая"
+    6 -> "июня"
+    7 -> "июля"
+    8 -> "августа"
+    9 -> "сентября"
+    10 -> "октября"
+    11 -> "ноября"
+    12 -> "декабря"
+    else -> ""
+}
 
 /**
  * Средняя
@@ -89,7 +137,18 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var phoneNumber = StringBuilder()
+    for (i in 0..(phone.length - 1)) {
+        when {
+            ((phone[0] == '+') && (i == 0)) -> phoneNumber.append("+")
+            ((phone[i] >= '0') && (phone[i] <= '9')) -> phoneNumber.append(phone[i])
+            (phone[i] > '9') -> return ""
+            else -> ""
+        }
+    }
+    return phoneNumber.toString()
+}
 
 /**
  * Средняя
