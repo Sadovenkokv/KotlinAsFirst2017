@@ -10,13 +10,9 @@ import java.util.logging.Level.parse
  * Разобрать эту строку и рассчитать количество секунд, прошедшее с начала дня.
  */
 fun timeStrToSeconds(str: String): Int {
-    val parts = str.split(":")
-    var result = 0
-    for (part in parts) {
-        val number = part.toInt()
-        result = result * 60 + number
-    }
-    return result
+    val matchResult = Regex("""(\d\d):(\d\d):(\d\d)""").find(str)
+    if (matchResult == null) return -1
+    return matchResult.groupValues.drop(1).map { it.toInt() }.fold(0) { previous, next -> previous * 60 + next}
 }
 
 /**
@@ -102,28 +98,7 @@ fun monthHelp (str: String): Int = when (str) {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String {  //почему не работает?
-    var date = digital.split(".")
-    if ((date.size != 3) || (date[0].toInt() > 31) || (anotherMonthHelp(date[1].toInt()) == ""))return ""
-    return try { String.format("%d %s %d", date[0].toInt(), anotherMonthHelp(date[1].toInt()), date[2].toInt()) }
-    catch (e:NumberFormatException) { "" }
-}
-
-fun anotherMonthHelp(n: Int): String = when (n) {
-    1 -> "января"
-    2 -> "февраля"
-    3 -> "марта"
-    4 -> "апреля"
-    5 -> "мая"
-    6 -> "июня"
-    7 -> "июля"
-    8 -> "августа"
-    9 -> "сентября"
-    10 -> "октября"
-    11 -> "ноября"
-    12 -> "декабря"
-    else -> ""
-}
+fun dateDigitToStr(digital: String): String = TODO()
 
 /**
  * Средняя
@@ -138,36 +113,22 @@ fun anotherMonthHelp(n: Int): String = when (n) {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var phoneNumber = StringBuilder()
-    for (i in 0..(phone.length - 1)) {
-        when {
-            ((phone[0] == '+') && (i == 0)) -> phoneNumber.append("+")
-            ((phone[i] >= '0') && (phone[i] <= '9')) -> phoneNumber.append(phone[i])
-            (phone[i] > '9') -> return ""
-            else -> ""
-        }
-    }
-    return phoneNumber.toString()
+    var correctPhone = Regex("""^\+?[\s\d()-]+""")
+    return if (!correctPhone.matches(phone)) ""
+    else phone.replace(Regex("""[\s()-]+"""), "")
 }
 
 /**
  * Средняя
  *
  * Результаты спортсмена на соревнованиях в прыжках в длину представлены строкой вида
- * "706 - % 717 % 703".
+ * "706 % - 717 - 703".
  * В строке могут присутствовать числа, черточки - и знаки процента %, разделённые пробелами;
  * число соответствует удачному прыжку, - пропущенной попытке, % заступу.
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    var jump = jumps.split(" ")
-    for (i in 0 until jump.size) {
-        if (jump[i] == String.format("""\d\d\d""")) return jump[i].toInt()
-    }
-    return 123456
-}
-
+fun bestLongJump(jumps: String): Int = TODO()
 /**
  * Сложная
  *
@@ -189,7 +150,29 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    try {
+        val regex = Regex("""(\d)+(.+)?""")
+        if (regex.matches(expression)) {
+            val parts = expression.split(" ")
+            var result = parts[0].toInt()
+            loop@ for (i in 0 until parts.size step 2) {
+                        if (parts.size == i+1) break@loop
+                        if (parts[i+1] == "+") {
+                            result += parts[i+2].toInt()
+                        }
+                        if (parts[i+1] == "-") {
+                            result -= parts[i + 2].toInt()
+                        }
+            }
+            return result
+        }
+    }
+    catch (e:IllegalArgumentException) {
+        throw e
+    }
+    return 1
+}
 
 /**
  * Сложная
@@ -200,7 +183,18 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var str = str.toLowerCase()
+    var words = str.split(" ")
+    var result = 0
+    for (i in 0 until words.size-1) {
+        result += words[i].length
+        if (words[i] == words[i+1]) {
+            return (result-(words[i].length-1)+(i-1))  //(Длина ВСЕХ слов)-(Длина последнего слова-1)+(Количество пробелов)
+        }
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -213,7 +207,26 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var correctForm = Regex("""[\.\d+[а-яА-Я]+\s;]+""").matches(description)  //стоит ли дальше ставить пробелы между ключевыми блоками для лучшей читабельности или нет?
+
+    if (correctForm) {
+
+        val productsAndPrice = description.split( Regex("""[\s;]+"""))
+        var max = productsAndPrice[1]
+        var index = 0
+
+        for (i in 3 until productsAndPrice.size-1 step 2) {
+            if (max.toDouble() < productsAndPrice[i].toDouble()) {
+                max = productsAndPrice[i]
+                index = i-1
+            }
+        }
+        return productsAndPrice[index]
+
+    }
+    else return ""
+}
 
 /**
  * Сложная

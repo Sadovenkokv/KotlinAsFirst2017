@@ -2,7 +2,8 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import java.lang.Math.abs
+import java.lang.Integer.max
+import java.lang.Math.*
 import kotlin.Int.Companion.MAX_VALUE
 
 /**
@@ -118,10 +119,12 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int):Int {
-    var result = 1 //значение переменной неважно
+    var result = 0 //значение переменной неважно
     for (i in 2..n) {
-        result = i
-        if (n % i == 0) break
+        if ((n % i) == 0) {
+            result = i
+            break
+        }
     }
     return result
 }
@@ -137,7 +140,7 @@ fun maxDivisor(n: Int): Int {
     var max = 0
     for (i in 1..(n-1)) {
         if (n % i == 0) {
-            max = Integer.max(max,i)
+            max = max(max,i)
         }
     }
     return max
@@ -189,15 +192,11 @@ fun revert(n: Int): Int {
     var quantityNumber = digitNumber1(n)
     var result = 0
     for (i in 1..digitNumber1(n)) {
-        var quantityZero = 1
-        val LastNumber = n % 10
-        while (quantityNumber != 1) {
-            quantityZero *= 10
-            quantityNumber -= 1
-        }
+        var quantityZero = pow(10.0, (quantityNumber-1).toDouble()).toInt()
+        val lastNumber = n % 10
         n /= 10
         quantityNumber = digitNumber1(n)
-        result += (LastNumber * quantityZero)
+        result += (lastNumber * quantityZero)
     }
     return result
 }

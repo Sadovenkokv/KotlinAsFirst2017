@@ -77,19 +77,19 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val YDeductY1 = kingY - rookY1  //deduct - вычесть
-    val XDeductX1 = kingX - rookX1
-    val YDeductY2 = kingY - rookY2
-    val XDeductX2 = kingX - rookX2
+    val yDeductY1 = kingY - rookY1  //deduct - вычесть
+    val xDeductX1 = kingX - rookX1
+    val yDeductY2 = kingY - rookY2
+    val xDeductX2 = kingX - rookX2
     var result = 0
     when {
-        ((YDeductY1 != 0) && (XDeductX1 == 0)) -> result += 1
-        ((XDeductX1 != 0) && (YDeductY1 == 0)) -> result += 1
+        ((yDeductY1 != 0) && (xDeductX1 == 0)) -> result += 1
+        ((xDeductX1 != 0) && (yDeductY1 == 0)) -> result += 1
         else -> result
     }
     when {
-        ((YDeductY2 != 0) && (XDeductX2 == 0)) -> result += 3
-        ((XDeductX2 != 0) && (YDeductY2 == 0)) -> result += 3
+        ((yDeductY2 != 0) && (xDeductX2 == 0)) -> result += 3
+        ((xDeductX2 != 0) && (yDeductY2 == 0)) -> result += 3
         else -> result
     }
     return when (result) {
@@ -118,7 +118,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val kXSumKY = kingX + kingY
     val bXSumBY = bishopX + bishopY
     var result = 0
-    if (((kYDeductRY != 0) && (kXDeductRX == 0)) || ((kXDeductRX != 0) && (kYDeductRY == 0))) result += 1
+    if (((kYDeductRY != 0) && (kXDeductRX == 0)) ||
+            ((kXDeductRX != 0) && (kYDeductRY == 0))) result += 1
     if ((kXDeductBX == kYDeductBY) || (kXSumKY == bXSumBY)) result += 3
     return when (result) {
         0, 1 -> result
@@ -163,15 +164,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (a >= c) {
         return when {
-            (a > d) -> -1
-            (b > d) -> (d - a)
-            else -> (b - a)
+            (a>d) -> -1
+            (d<b) -> (d-a)
+            else -> (b-a)
         }
-    } else {
+    }
+    else {
         return when {
-            (c > b) -> -1
-            (b > d) -> (d - c)
-            else -> (b - c)
+            (c>b) -> -1
+            (b>d) -> (d-c)
+            else -> (b-c)
         }
     }
 }

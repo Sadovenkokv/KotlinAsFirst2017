@@ -2,6 +2,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import java.lang.Math.pow
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -40,16 +42,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    return if ( r2 < r1 ) false
-           else {
-              when {
-                ((x1 == x2) && (y1 == y2)) -> true
-                (sqr((x1 - r1) - x2 ) + sqr(( y1 - r1) - y2) <= sqr(r2)) -> true
-                else -> false
-              }
-           }
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        r2 >= (sqrt(pow(x2 - x1, 2.0) + pow(y2 - y1, 2.0))) + r1
 
 /**
  * Средняя
@@ -60,18 +54,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (a<=r) {
-        if (b<=s) return true
-        else if (c<=s) return true
-    }
-    if (b<=r) {
-        if (a<=s) return true
-        else if (c<=s) return true
-    }
-    if (c<=r) {
-        if (a<=s) return true
-            else if (b<=s) return true
-    }
-    return false
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        ((a <= r) && (b <= s)) || ((b <= r) && (a <= s)) || ((a <= r) && (c <= s)) ||
+                (a <= s && c <= r) || (b <= r && c <= s) || (c <= r && b <= s)
+
