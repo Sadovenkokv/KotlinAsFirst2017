@@ -126,10 +126,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var result = 0.0
-    for (element in list) {
-        result += element/list.size
-    }
-    return result
+    return if (list.isEmpty()) result else (list.sum() / list.size)
 }
 
 /**
@@ -214,7 +211,6 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     var list = factorize(n)
-    list.sorted()
     return (list.joinToString(separator = "*"))
 }
 
@@ -252,15 +248,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var letterUnicode = 87
-    var result = ""
+    var result = StringBuilder()
     var list = convert(n,base)
     for (i in 0 until list.size) {
-        result += if (list[i] > 9) {
-            (list[i] + letterUnicode).toChar()
-        }
-        else list[i]
+
+        if (list[i] > 9) result.append( (list[i] + letterUnicode).toChar())
+        else result.append(list[i])
     }
-    return result
+    return result.toString()
 }
 
 /**
