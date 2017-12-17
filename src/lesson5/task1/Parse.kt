@@ -67,13 +67,18 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     var date = str.split(" ")
-    if ((date.size != 3) || (monthHelp(date[1]) == 0) || (date[0].toInt() > 31)) return ""
+    var months = listOf("января","февраля","марта","апреля","мая","июня","июля",
+            "августа","сентября","октября","ноября", "декабря")
+    if ((date.size != 3) || (date[0].toInt() > 31)) return ""
+    for (month in months) {
+        if ((date[1] != month) && (month == "декабря")) return ""
+    }
     return try {
-        String.format("%02d.%02d.%d", date[0].toInt(), monthHelp(date[1]), date[2].toInt())
+        String.format("%02d.%02d.%d", date[0].toInt(), months[date.indexOf(date[1])], date[2].toInt())
     }
     catch (e:NumberFormatException) {
         ""
-    } //*java.lang.IndexOutOfBoundsException: Index 1, Size 1 была ошибка такого рода при вводе строки без пробелов. При  написании e:Exception | e:IndexOutOfBoundsException ошибка всё ещё не исправлялас с помощью catch, почему?
+    }
 }
 
 fun monthHelp (str: String): Int = when (str) {

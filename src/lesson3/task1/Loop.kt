@@ -120,13 +120,13 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int):Int {
     var result = 0 //значение переменной неважно
-    for (i in 2..n) {
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
         if ((n % i) == 0) {
             result = i
             break
         }
     }
-    return result
+    return if (result == 0) n else result
 }
 
 
@@ -138,12 +138,12 @@ fun minDivisor(n: Int):Int {
  */
 fun maxDivisor(n: Int): Int {
     var max = 0
-    for (i in 1..(n-1)) {
+    for (i in n / 2 downTo 1) {
         if (n % i == 0) {
             max = max(max,i)
         }
     }
-    return max
+    return if (max == 0) return n else max
 }
 
 /**
@@ -263,7 +263,6 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    println(123123123123)
     var beforeLastN=-1
     var previousN=0
     var result = 0
