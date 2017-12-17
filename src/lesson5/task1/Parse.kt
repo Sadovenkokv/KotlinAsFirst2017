@@ -108,9 +108,8 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var correctPhone = Regex("""^\+?[\s\d()-]+""")
-    return if (!correctPhone.matches(phone)) ""
-    else phone.replace(Regex("""[\s()-]+"""), "")
+    if (!Regex("""^\+?[\s\d()-]+""").matches(phone)) return ""
+    return phone.replace(Regex("""[\s()-]+"""), "")
 }
 
 /**
@@ -212,9 +211,7 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    var correctForm = Regex("""([[а-яА-Яa-zA-Z]+[!@~"#№$;%^:?&*()-_=+/,<>.'{}\[\]]+]+\s\d+\.\d+[;]?)+""").matches(description)  //стоит ли дальше ставить пробелы между ключевыми блоками для лучшей читабельности или нет?
-
-    if (correctForm) {
+    try {
 
         val productsAndPrice = description.split( Regex("""[\s;]+"""))
         var max = productsAndPrice[1]
@@ -229,7 +226,9 @@ fun mostExpensive(description: String): String {
         return productsAndPrice[index]
 
     }
-    else return ""
+    catch (e:IndexOutOfBoundsException) {
+        return ""
+    }
 }
 
 /**
