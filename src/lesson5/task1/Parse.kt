@@ -69,12 +69,17 @@ fun dateStrToDigit(str: String): String {
     var date = str.split(" ")
     var months = listOf("января","февраля","марта","апреля","мая","июня","июля",
             "августа","сентября","октября","ноября", "декабря")
+    var check = 0
+
     if ((date.size != 3) || (date[0].toInt() > 31)) return ""
-    for (month in months) {
-        if ((date[1] != month) && (month == "декабря")) return ""
+    for (i in 0 until months.size) {
+        if (date[1] != months[i]) check += 1
+        else break
     }
+    if (check == 12) return ""
+
     return try {
-        String.format("%02d.%02d.%d", date[0].toInt(), months[date.indexOf(date[1])], date[2].toInt())
+        String.format("%02d.%02d.%d", date[0].toInt(), date.indexOf(date[1]), date[2].toInt())
     }
     catch (e:NumberFormatException) {
         ""
@@ -134,7 +139,21 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    return try {
+        var jumps = jumps.split(Regex("""[\s%-]+"""))
+        var max = 0
+        for (jump in jumps) {
+            if (max < jump.toInt()) {
+                max = jump.toInt()
+            }
+        }
+        max
+    } catch (e:NumberFormatException) {
+        -1
+    }
+}
+
 /**
  * Сложная
  *
