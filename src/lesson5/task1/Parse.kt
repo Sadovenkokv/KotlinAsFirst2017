@@ -156,8 +156,6 @@ fun plusMinus(expression: String): Int {
     if (!regex.matches(expression)) {
         throw IllegalArgumentException()     //проверка на корректную запись
     }
-
-
     val parts = expression.split(" ")  //блок основной программы
     var result = parts[0].toInt()
     loop@ for (i in 0 until parts.size step 2) {
@@ -206,7 +204,7 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    var correctForm = Regex("""[\.\d+[а-яА-Я]+\s;]+""").matches(description)  //стоит ли дальше ставить пробелы между ключевыми блоками для лучшей читабельности или нет?
+    var correctForm = Regex("""([[а-яА-Яa-zA-Z]+[!@~"#№$;%^:?&*()-_=+/,<>.'{}\[\]]+]+\s\d+\.\d+[;]?)+""").matches(description)  //стоит ли дальше ставить пробелы между ключевыми блоками для лучшей читабельности или нет?
 
     if (correctForm) {
 
