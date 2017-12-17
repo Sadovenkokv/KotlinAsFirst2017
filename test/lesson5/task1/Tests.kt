@@ -88,7 +88,7 @@ class Tests {
         assertEquals(0, plusMinus("0"))
         assertEquals(4, plusMinus("2 + 2"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
-        assertEquals(-1, plusMinus("0 - 1"))
+        assertEquals(-4707896268, plusMinus("800213303 - 2147483647 - 1985435025 - 426345323 + 2147483647 - 0 + 0 - 2147483647 - 948845576"))
     }
 
     @Test

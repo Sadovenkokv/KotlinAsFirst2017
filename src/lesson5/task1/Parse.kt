@@ -76,31 +76,15 @@ fun dateStrToDigit(str: String): String {
         if (date[1] != months[i]) check += 1
         else break
     }
-    if (check == 12) return ""
 
+    if (check == 12) return ""
     return try {
-        String.format("%02d.%02d.%d", date[0].toInt(), date.indexOf(date[1]), date[2].toInt())
+        String.format("%02d.%02d.%d", date[0].toInt(), months.indexOf(date[1])+1, date[2].toInt())
     }
     catch (e:NumberFormatException) {
         ""
     }
 }
-
-fun monthHelp (str: String): Int = when (str) {
-     "января" -> 1
-     "февраля" -> 2
-     "марта" -> 3
-     "апреля" -> 4
-     "мая" -> 5
-     "июня" -> 6
-     "июля" -> 7
-     "августа" -> 8
-     "сентября" -> 9
-     "октября" -> 10
-     "ноября" -> 11
-     "декабря" -> 12
-     else -> 0
- }
 
 /**
  * Средняя
@@ -176,7 +160,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val regex = Regex("""(\d+)|(((\d+)\s+[\+-]\s+(\d+))+)""")
+    val regex = Regex("""(\d+)|(\+)|(\s)|(-)""")
     if (!regex.matches(expression)) {
         throw IllegalArgumentException()     //проверка на корректную запись
     }
