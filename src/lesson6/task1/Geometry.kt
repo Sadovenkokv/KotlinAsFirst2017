@@ -2,6 +2,8 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.PI
+import java.lang.Math.atan
 
 /**
  * Точка на плоскости
@@ -99,7 +101,22 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
+
+    var max = 0
+    var maxGap =  Segment(Point(0.0,0.0), Point(0.0,0.0))// с учётом, что Gap - разрыв (между двумя точками)
+
+    for (element in points) {
+        for (element2 in points) {
+            if (element.distance(element2) > max) {
+                max = element.distance(element2).toInt()
+                maxGap = Segment(element,element2)
+            }
+        }
+    }
+    return maxGap
+}
 
 /**
  * Простая
@@ -146,7 +163,14 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    var angle = atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+    when {
+        (s.end.x == s.begin.x) -> return Line(s.begin, PI/2)
+        (angle < 0) -> angle += PI
+    }
+    return Line(s.begin,angle)
+}
 
 /**
  * Средняя
