@@ -263,6 +263,7 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
+    println(123123123123)
     var beforeLastN=-1
     var previousN=0
     var result = 0
@@ -276,13 +277,12 @@ fun fibSequenceDigit(n: Int): Int {
         if (quantityNumber >= n) breakCircle = 1
     }
     quantityNumber -= n
-
     if ((quantityNumber == 0) && (digitNumber1(result) == 1)) return result
     if ((quantityNumber == 0) && (digitNumber1(result) != 1)) return result%10
     for (i in 1..quantityNumber) {
         result /= 10
     }
-    return result
+    return result % 10
 }
 
 

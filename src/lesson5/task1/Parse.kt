@@ -69,7 +69,7 @@ fun dateStrToDigit(str: String): String {
     var date = str.split(" ")
     if ((date.size != 3) || (monthHelp(date[1]) == 0) || (date[0].toInt() > 31)) return ""
     return try {
-        String.format("%02d.%02d.%04d", date[0].toInt(), monthHelp(date[1]), date[2].toInt())
+        String.format("%02d.%02d.%d", date[0].toInt(), monthHelp(date[1]), date[2].toInt())
     }
     catch (e:NumberFormatException) {
         ""
@@ -152,27 +152,24 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    try {
-        val regex = Regex("""(\d)+(.+)?""")
-        if (regex.matches(expression)) {
-            val parts = expression.split(" ")
-            var result = parts[0].toInt()
-            loop@ for (i in 0 until parts.size step 2) {
-                        if (parts.size == i+1) break@loop
-                        if (parts[i+1] == "+") {
-                            result += parts[i+2].toInt()
-                        }
-                        if (parts[i+1] == "-") {
-                            result -= parts[i + 2].toInt()
-                        }
-            }
-            return result
+    val regex = Regex("""(\d)+(.+)?""")
+    if (!regex.matches(expression)) {
+        throw IllegalArgumentException()     //проверка на корректную запись
+    }
+
+
+    val parts = expression.split(" ")  //блок основной программы
+    var result = parts[0].toInt()
+    loop@ for (i in 0 until parts.size step 2) {
+        if (parts.size == i+1) break@loop
+        if (parts[i+1] == "+") {
+            result += parts[i+2].toInt()
+        }
+        if (parts[i+1] == "-") {
+            result -= parts[i + 2].toInt()
         }
     }
-    catch (e:IllegalArgumentException) {
-        throw e
-    }
-    return 1
+    return result
 }
 
 /**
