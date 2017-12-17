@@ -350,27 +350,33 @@ fun strToRussian(quantityNumber: Int, n: Int): String {
 
 fun fromNumbersToWords(n: Int,quantityNumber: Int): String { //задача данной функции переделывать цифры в их разрядности
     var result = StringBuilder()
-    if (quantityNumber == 1) { //единицы
-        result.append(from1to9InWords(n))
-    }
-    if (quantityNumber == 2) { //десятки
-        if (n == 1) result.append("десять ")
-        if ((n >= 2) && (n <= 3)) result.append(from1to9InWords(n) + "дцать ")
-        if (n == 4) result.append("сорок ")
-        if ((n >= 5) && n <=8)  result.append(from1to9InWords(n) + "десят ")
-        if (n == 9) result.append("девяносто ")
-    }
-    if (quantityNumber == 3) { //сотни
-        if (n == 1) result.append("сто ")
-        if (n == 2) result.append("двести ")
-        if ((n >= 3) && (n <= 4)) result.append(from1to9InWords(n) + "ста ")
-        if (n >= 5) result.append(from1to9InWords(n) + "сот ")
-    }
-    if (quantityNumber == 4) { //тысячи
-        if (n == 0) result.append("тысяч ")
-        if (n == 1) result.append(from1to9InWords(n) + " тысяча ")
-        if ((n >= 2) && (n <= 4)) result.append(from1to9InWords(n) + " тысячи ")
-        if (n >= 5) result.append(from1to9InWords(n) +  " тысяч ")
+    when (quantityNumber) {
+        1 -> result.append(from1to9InWords(n))
+        2 -> {
+            when (n) {
+                1 -> result.append("десять ")
+                2,3 -> result.append(from1to9InWords(n) + "дцать ")
+                4 -> result.append("сорок ")
+                5, 7, 6,8 -> result.append(from1to9InWords(n) + "десят ")
+                9 -> result.append("девяносто ")
+            }
+        }
+        3 -> {
+            when (n) {
+                1 -> result.append("сто ")
+                2 -> result.append("двести ")
+                3,4 -> result.append(from1to9InWords(n) + "ста ")
+                5,6,7,8,9 -> result.append(from1to9InWords(n) + "сот ")
+            }
+        }
+        4 -> {
+            when (n) {
+                0 -> result.append("тысяч ")
+                1 -> result.append(from1to9InWords(n) + " тысяча ")
+                2,3,4 -> result.append(from1to9InWords(n) + " тысячи ")
+                5,6,7,8,9 -> result.append(from1to9InWords(n) +  " тысяч ")
+            }
+        }
     }
     return result.toString()
 }
